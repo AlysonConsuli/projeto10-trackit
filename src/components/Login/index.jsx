@@ -1,30 +1,34 @@
 import { $Login } from "./style"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+import { UserContext } from "../../contexts/UserContext"
+import { ThreeDots } from "react-loader-spinner"
 
 export const Login = () => {
 
-    const [user, setUser] = useState({ email: '', password: '' })
-    const { email, password } = user
-    
+    const [userLogin, setUserLogin] = useState({ email: '', password: '' })
+
     const [disable, setDisable] = useState(false)
 
     const navigate = useNavigate()
+
+    const { user, setUser } = useContext(UserContext)
 
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
 
     function Enter(e) {
         e.preventDefault()
         setDisable(true)
-        //console.log(user)
+        //console.log(userLogin)
 
-        const promise = axios.post(URL, user)
+        const promise = axios.post(URL, userLogin)
 
         promise.then(response => {
             const { data } = response
-            console.log(data)
-
+            const { email, password, name, image, token } = data
+            //console.log(data)
+            setUser({ ...user, email, password, name, image, token })
             navigate('/hoje')
         })
         promise.catch(err => {
@@ -36,8 +40,6 @@ export const Login = () => {
             }
             setDisable(false)
         })
-
-        //setUser({ ...user, email: '', password: '' })
     }
 
     return (
@@ -49,8 +51,8 @@ export const Login = () => {
                     id="email"
                     required
                     placeholder="email"
-                    onChange={e => setUser({ ...user, email: e.target.value })}
-                    value={email}
+                    onChange={e => setUserLogin({ ...userLogin, email: e.target.value })}
+                    value={userLogin.email}
                     disabled={disable}
                 />
                 <input
@@ -59,11 +61,13 @@ export const Login = () => {
                     id="password"
                     required
                     placeholder="senha"
-                    onChange={e => setUser({ ...user, password: e.target.value })}
-                    value={password}
+                    onChange={e => setUserLogin({ ...userLogin, password: e.target.value })}
+                    value={userLogin.password}
                     disabled={disable}
                 />
-                <button type="submit" disabled={disable}>Entrar</button>
+                <button type="submit" disabled={disable}>
+                    {disable ? <ThreeDots color="#FFFFFF" height={13} width={13} /> : <span>Entrar</span>}
+                </button>
             </form>
             <Link to='/cadastro'>
                 <span>Não tem uma conta? Cadastre-se!</span>

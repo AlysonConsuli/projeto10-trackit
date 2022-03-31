@@ -2,6 +2,7 @@ import { $SignUp } from "./style"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+import { ThreeDots } from "react-loader-spinner"
 
 export const SignUp = () => {
 
@@ -28,7 +29,6 @@ export const SignUp = () => {
         promise.then(response => {
             const { data } = response
             console.log(data)
-            //setNewUser({ ...newUser, email: '', password: '', name: '', image: '' })
             navigate('/')
         })
         promise.catch(err => {
@@ -85,7 +85,9 @@ export const SignUp = () => {
                     value={image}
                     disabled={disable}
                 />
-                <button type="submit" disabled={disable}>Cadastrar</button>
+                <button type="submit" disabled={disable}>
+                    {disable ? <ThreeDots color="#FFFFFF" height={13} width={13} /> : <span>Cadastrar</span>}
+                </button>
             </form>
             <Link to='/'>
                 <span>Já tem uma conta? Faça login!</span>
