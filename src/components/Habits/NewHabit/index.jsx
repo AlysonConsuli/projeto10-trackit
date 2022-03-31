@@ -4,7 +4,7 @@ import { useContext, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
 
-export const NewHabit = () => {
+export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
 
     const { user } = useContext(UserContext)
 
@@ -39,7 +39,8 @@ export const NewHabit = () => {
 
         promise.then(({ data }) => {
             console.log(data)
-            setNewHabit({ newHabit, habitName: '', days: [] })
+            setHabits([...habits, data])
+            callbackCancel()
         })
         promise.catch(({ response }) => {
             console.log(response)
@@ -69,7 +70,7 @@ export const NewHabit = () => {
                         }}
                     />)}
                 </div>
-                <button type="button">Cancelar</button>
+                <button type="button" onClick={() => callbackCancel()}>Cancelar</button>
                 <button type="submit">Salvar</button>
             </form>
         </$NewHabit>
