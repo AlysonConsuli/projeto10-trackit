@@ -1,5 +1,7 @@
 import { useContext } from "react"
 import { UserContext } from "../../contexts/UserContext"
+import { Footer } from "../Footer"
+import { Header } from "../Header"
 import { $Today } from "./style"
 
 export const Today = () => {
@@ -8,8 +10,12 @@ export const Today = () => {
     console.log(user)
 
     return (
-        <$Today>
-            Hoje
-        </$Today>
+        <>
+            <Header />
+            <$Today>
+                <h1>Hoje</h1>
+            </$Today>
+            <Footer />
+        </>
     )
 }

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Habits } from './components/Habits'
+import { Historic } from './components/Historic'
 import { Login } from './components/Login'
 import { SignUp } from './components/SignUp'
 import { Today } from './components/Today'
@@ -25,6 +27,8 @@ export const App = () => {
                         <Route path='/' element={<Login />} />
                         <Route path='/cadastro' element={<SignUp />} />
                         <Route path='/hoje' element={<Today />} />
+                        <Route path='/habitos' element={<Habits />} />
+                        <Route path='/historico' element={<Historic />} />
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>
