@@ -5,10 +5,11 @@ import { $Historic } from "./style"
 export const Historic = () => {
     return (
         <$Historic>
-            <Header/>
+            <Header />
             <h1>Histórico</h1>
             <span>Em breve você poderá ver o histórico dos seus hábitos aqui!</span>
-            <Footer/>
-        </$Historic>
+            <main></main >
+            <Footer />
+        </$Historic >
     )
 }

@@ -4,10 +4,13 @@ import { useContext, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import axios from "axios"
 
-export const TodayHabit = ({ name, currentSequence, highestSequence, habitId, done, todayHabits }) => {
+export const TodayHabit = ({ name, currentSequence, highestSequence, habitId, done,
+    todayHabits, setTodayHabits }) => {
 
     const { user, setUser } = useContext(UserContext)
     const [status, setStatus] = useState(done)
+
+    const [disable, setDisable] = useState(false)
 
     function toggleCheck() {
         const config = {
@@ -20,32 +23,86 @@ export const TodayHabit = ({ name, currentSequence, highestSequence, habitId, do
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/check`,
                 {}, config
             )
-            promise.then(({ data }) => {
-                console.log('mark')
-                setUser({ ...user, percentage: 100 })
+            promise.then((response) => {
+                setTodayHabits([...todayHabits].map(habit => {
+                    if (habit.id === habitId &&
+                        habit.currentSequence === habit.highestSequence) {
+                        return {
+                            ...habit,
+                            done: true,
+                            currentSequence: currentSequence + 1,
+                            highestSequence: currentSequence + 1
+                        }
+                    }
+                    if (habit.id === habitId &&
+                        habit.currentSequence !== habit.highestSequence) {
+                        return {
+                            ...habit,
+                            done: true,
+                            currentSequence: currentSequence + 1
+                        }
+                    }
+                    if (habit.id !== habitId) {
+                        return { ...habit }
+                    }
+                }))
+                setDisable(false)
             })
-            promise.catch(({ response }) => console.log(response))
+            promise.catch(({ response }) => {
+                console.log(response)
+                setDisable(false)
+            })
         } else {
             const promise = axios.post(
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/uncheck`,
                 {}, config
             )
-            promise.then(({ data }) => {
-                console.log('remove')
-                setUser({ ...user, percentage: 50 })
+            promise.then((response) => {
+                setTodayHabits([...todayHabits].map(habit => {
+
+                    if (habit.id === habitId &&
+                        habit.currentSequence === habit.highestSequence) {
+                        return {
+                            ...habit,
+                            done: false,
+                            currentSequence: currentSequence - 1,
+                            highestSequence: currentSequence - 1
+                        }
+                    }
+                    if (habit.id === habitId &&
+                        habit.currentSequence !== habit.highestSequence) {
+                        return {
+                            ...habit,
+                            done: false,
+                            currentSequence: currentSequence - 1
+                        }
+                    }
+                    if (habit.id !== habitId) {
+                        return { ...habit }
+                    }
+                }))
+                setDisable(false)
             })
-            promise.catch(({ response }) => console.log(response))
+            promise.catch(({ response }) => {
+                console.log(response)
+                setDisable(false)
+            })
         }
     }
 
     return (
         <$TodayHabit done={status}>
-            <h2>{name}</h2>
+            <h3>{name}</h3>
             <div>
-                <span>Sequência atual: {currentSequence} dias</span> <br />
-                <span>Seu recorde: {highestSequence} dias</span>
+                <span>Sequência atual: <strong>{currentSequence} dias</strong></span><br />
+                {currentSequence === highestSequence ?
+                    <span>Seu recorde: <strong>{highestSequence} dias</strong></span>
+                    :
+                    <span>Seu recorde: {highestSequence} dias</span>
+                }
             </div>
-            <button onClick={() => {
+            <button type="button" disabled={disable} onClick={() => {
+                setDisable(true)
                 toggleCheck()
                 setStatus(!status)
             }}>

@@ -10,6 +10,7 @@ background-color: blue;
 position: sticky;
 top: 0;
 left: 0;
+z-index: 2;
 
 img{
     width: 51px;

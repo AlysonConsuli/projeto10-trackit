@@ -9,7 +9,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 
-h2{
+h3{
     font-weight: 700;
     margin-bottom: 5px;
 }
@@ -18,5 +18,9 @@ button{
     position: absolute;
     right: 0;
     background-color: ${props => props.done ? 'green' : 'grey'};
+}
+
+strong{
+    color: ${props => props.done ? 'green' : 'black'};
 }
 `

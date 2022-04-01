@@ -4,6 +4,7 @@ export const $Footer = styled.footer`
 position: fixed;
 bottom: 0;
 left: 0;
+z-index: 2;
 width: 100%;
 height: 70px;
 background-color: #E5E5E5;
