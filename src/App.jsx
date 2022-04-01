@@ -15,7 +15,8 @@ export const App = () => {
         password: '',
         name: '',
         image: '',
-        token: ''
+        token: '',
+        percentage: 0
     })
 
     return (
