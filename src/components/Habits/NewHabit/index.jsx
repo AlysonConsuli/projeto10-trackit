@@ -3,8 +3,11 @@ import { $NewHabit } from "./style"
 import { useContext, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
+import { ThreeDots } from "react-loader-spinner"
 
 export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
+
+    const [disable, setDisable] = useState(false)
 
     const { user } = useContext(UserContext)
 
@@ -30,8 +33,8 @@ export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
 
     function saveHabit(e) {
         e.preventDefault()
-
         if (days.length === 0) { return alert('selecione no mínimo 1 dia da semana!') }
+        setDisable(true)
         const promise = axios.post(URL, {
             name: habitName,
             days: days.sort(sortfunction)
@@ -42,8 +45,14 @@ export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
             setHabits([...habits, data])
             callbackCancel()
         })
-        promise.catch(({ response }) => {
-            console.log(response)
+        promise.catch(err => {
+            console.log(err.response)
+            if (!err.response.data.details) {
+                alert(err.response.data.message)
+            } else {
+                alert(err.response.data.details[0])
+            }
+            setDisable(false)
         })
 
     }
@@ -58,9 +67,10 @@ export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
                     required
                     onChange={e => setNewHabit({ ...newHabit, habitName: e.target.value })}
                     value={newHabit.habitName}
+                    disabled={disable}
                 />
                 <div>
-                    {letters.map((letter, i) => <Day key={i} letter={letter}
+                    {letters.map((letter, i) => <Day disable={disable} key={i} letter={letter}
                         callback={() => {
                             if (days.includes(i)) {
                                 setNewHabit({ ...newHabit, days: [...days].filter(day => day !== i) })
@@ -70,8 +80,10 @@ export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
                         }}
                     />)}
                 </div>
-                <button type="button" onClick={() => callbackCancel()}>Cancelar</button>
-                <button type="submit">Salvar</button>
+                <button type="button" disabled={disable} onClick={() => callbackCancel()}>Cancelar</button>
+                <button type="submit" disabled={disable}>
+                    {disable ? <ThreeDots color="#FFFFFF" height={13} width={13} /> : <span>Salvar</span>}
+                </button>
             </form>
         </$NewHabit>
     )

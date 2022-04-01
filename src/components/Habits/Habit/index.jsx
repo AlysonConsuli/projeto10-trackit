@@ -1,6 +1,7 @@
 import { $Habit, DayBox } from "./style"
+import trash from "../../../assets/delete.svg"
 
-export const Habit = ({ name, days }) => {
+export const Habit = ({ name, days, callbackDelete }) => {
 
     const letters = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
@@ -10,11 +11,16 @@ export const Habit = ({ name, days }) => {
             <div>
                 {letters.map((letter, i) => {
                     return (
-                        <DayBox selected={days.includes(i) ? true : false }>
+                        <DayBox key={i} selected={days.includes(i) ? true : false}>
                             <span>{letter}</span>
                         </DayBox>
                     )
                 })}
+                <img src={trash} alt="deletar habito" onClick={(value) => {
+                    if (window.confirm('Você está ok em apagar esse hábito?')) {
+                        callbackDelete(value)
+                    }
+                }} />
             </div>
         </$Habit>
     )
