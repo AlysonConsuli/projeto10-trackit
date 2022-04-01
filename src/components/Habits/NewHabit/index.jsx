@@ -5,7 +5,7 @@ import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
 import { ThreeDots } from "react-loader-spinner"
 
-export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
+export const NewHabit = ({ callbackCancel, setHabits, habits, display, setRefresh }) => {
 
     const [disable, setDisable] = useState(false)
 
@@ -43,7 +43,7 @@ export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
         promise.then(({ data }) => {
             console.log(data)
             setHabits([...habits, data])
-            callbackCancel()
+            setRefresh()
         })
         promise.catch(err => {
             console.log(err.response)
@@ -54,11 +54,10 @@ export const NewHabit = ({ callbackCancel, setHabits, habits }) => {
             }
             setDisable(false)
         })
-
     }
 
     return (
-        <$NewHabit>
+        <$NewHabit $display={display}>
             <form onSubmit={saveHabit}>
                 <input
                     type="text"

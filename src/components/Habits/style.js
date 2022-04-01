@@ -7,4 +7,8 @@ div:nth-child(2){
 input{
     margin: 20px 0 5px 0;
 }
+
+main{
+    margin-bottom: 105px;
+}
 `

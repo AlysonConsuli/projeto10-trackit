@@ -9,10 +9,8 @@ import { $Habits } from "./style"
 
 export const Habits = () => {
 
-    const [form, setForm] = useState([])
-    function callbackCancel() {
-        setForm([...form].filter((el, i) => i !== 0))
-    }
+    const [display, setDisplay] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     const [toggleErase, setToggleErase] = useState(false)
 
@@ -58,25 +56,37 @@ export const Habits = () => {
             <Header />
             <div>
                 <h1>Meus hábitos</h1>
-                <button onClick={() => setForm([...form, 1])} >+</button>
+                <button onClick={() => {
+                    if (refresh) {
+                        setRefresh(false)
+                    }
+                    setDisplay(true)
+                }} >
+                    +
+                </button>
             </div>
-            {form.map((el, i) => <NewHabit
-                key={i}
-                callbackCancel={callbackCancel}
-                habits={habits}
-                setHabits={(value) => setHabits(value)}
-            />)}
-            {habits.length === 0 ?
-                <span>Você não tem nenhum hábito cadastrado ainda.
-                    Adicione um hábito para começar a trackear!
-                </span>
-                :
-                habits.map(habit => <Habit
-                    key={habit.id}
-                    name={habit.name}
-                    days={habit.days}
-                    callbackDelete={() => callbackDelete(habit.id)}
-                />)}
+            <main>
+                {
+                    !refresh && <NewHabit
+                        callbackCancel={() => setDisplay(false)}
+                        habits={habits}
+                        setHabits={(value) => setHabits(value)}
+                        display={display}
+                        setRefresh={() => setRefresh(true)}
+                    />
+                }
+                {habits.length === 0 ?
+                    <span>Você não tem nenhum hábito cadastrado ainda.
+                        Adicione um hábito para começar a trackear!
+                    </span>
+                    :
+                    habits.map(habit => <Habit
+                        key={habit.id}
+                        name={habit.name}
+                        days={habit.days}
+                        callbackDelete={() => callbackDelete(habit.id)}
+                    />)}
+            </main>
             <Footer />
         </$Habits>
     )
