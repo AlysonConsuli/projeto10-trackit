@@ -5,27 +5,21 @@ import { Footer } from "../Footer"
 import { Header } from "../Header"
 import { Habit } from "./Habit"
 import { NewHabit } from "./NewHabit"
-import { $Habits } from "./style"
+import { $Habits, Title } from "./style"
 
 export const Habits = () => {
-
     const [display, setDisplay] = useState(false)
     const [refresh, setRefresh] = useState(false)
-
     const [toggleErase, setToggleErase] = useState(false)
-
     const [habits, setHabits] = useState([])
-
-    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
-
     const { user } = useContext(UserContext)
-
+    
+    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
     const config = {
         headers: {
             'Authorization': `Bearer ${user.token}`
         }
     }
-
     //console.log(habits)
 
     function callbackDelete(value) {
@@ -33,7 +27,6 @@ export const Habits = () => {
             `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${value}`,
             config
         )
-
         promise.then(resp => {
             setToggleErase(!toggleErase)
         })
@@ -42,9 +35,8 @@ export const Habits = () => {
 
     useEffect(() => {
         const promise = axios.get(URL, config)
-
         promise.then(({ data }) => {
-            console.log(data)
+            //console.log(data)
             setHabits(data)
         })
         promise.catch(({ response }) => console.log(response))
@@ -54,7 +46,7 @@ export const Habits = () => {
     return (
         <$Habits>
             <Header />
-            <div>
+            <Title>
                 <h1>Meus hábitos</h1>
                 <button onClick={() => {
                     if (refresh) {
@@ -64,7 +56,7 @@ export const Habits = () => {
                 }} >
                     +
                 </button>
-            </div>
+            </Title>
             <main>
                 {
                     !refresh && <NewHabit
@@ -76,9 +68,10 @@ export const Habits = () => {
                     />
                 }
                 {habits.length === 0 ?
-                    <span>Você não tem nenhum hábito cadastrado ainda.
+                    <p>
+                        Você não tem nenhum hábito cadastrado ainda.
                         Adicione um hábito para começar a trackear!
-                    </span>
+                    </p>
                     :
                     habits.map(habit => <Habit
                         key={habit.id}

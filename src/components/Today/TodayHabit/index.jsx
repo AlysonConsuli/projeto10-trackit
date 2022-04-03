@@ -4,13 +4,13 @@ import { useContext, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import axios from "axios"
 
-export const TodayHabit = ({ name, currentSequence, highestSequence, habitId, done,
-    todayHabits, setTodayHabits }) => {
+export const TodayHabit = ({ name, currentSequence, highestSequence,
+    habitId, done, todayHabits, setTodayHabits }) => {
 
-    const { user, setUser } = useContext(UserContext)
     const [status, setStatus] = useState(done)
-
     const [disable, setDisable] = useState(false)
+
+    const { user } = useContext(UserContext)
 
     function toggleCheck() {
         const config = {
@@ -91,7 +91,7 @@ export const TodayHabit = ({ name, currentSequence, highestSequence, habitId, do
     }
 
     return (
-        <$TodayHabit done={status}>
+        <$TodayHabit done={done} status={status}>
             <h3>{name}</h3>
             <div>
                 <span>Sequência atual: <strong>{currentSequence} dias</strong></span><br />

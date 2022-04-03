@@ -4,30 +4,25 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { UserContext } from "../../contexts/UserContext"
 import { ThreeDots } from "react-loader-spinner"
+import logo from "../../assets/logo.png"
 
 export const Login = () => {
-
     const [userLogin, setUserLogin] = useState({ email: '', password: '' })
-
     const [disable, setDisable] = useState(false)
+    const { user, setUser } = useContext(UserContext)
 
     const navigate = useNavigate()
-
-    const { user, setUser } = useContext(UserContext)
 
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
 
     function Enter(e) {
         e.preventDefault()
         setDisable(true)
-        //console.log(userLogin)
 
         const promise = axios.post(URL, userLogin)
-
         promise.then(response => {
             const { data } = response
             const { email, password, name, image, token } = data
-            //console.log(data)
             setUser({ ...user, email, password, name, image, token })
             navigate('/hoje')
         })
@@ -44,6 +39,8 @@ export const Login = () => {
 
     return (
         <$Login>
+            <img src={logo} alt="logo" />
+            <h1>TrackIt</h1>
             <form onSubmit={Enter}>
                 <input
                     type="email"
@@ -66,7 +63,7 @@ export const Login = () => {
                     disabled={disable}
                 />
                 <button type="submit" disabled={disable}>
-                    {disable ? <ThreeDots color="#FFFFFF" height={13} width={13} /> : <span>Entrar</span>}
+                    {disable ? <ThreeDots color="#FFFFFF" height='51' width='51' ariaLabel='loading' /> : 'Entrar'}
                 </button>
             </form>
             <Link to='/cadastro'>

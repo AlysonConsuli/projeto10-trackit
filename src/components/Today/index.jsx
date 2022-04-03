@@ -11,31 +11,27 @@ import { TodayHabit } from "./TodayHabit"
 export const Today = () => {
 
     dayjs.locale('pt-br')
-    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
-
-    const { user, setUser } = useContext(UserContext)
-    //console.log(user)
+    const date = dayjs().format('dddd, DD/MM')[0].toUpperCase() + dayjs().format('dddd, DD/MM').substring(1)
 
     const [todayHabits, setTodayHabits] = useState([])
-    console.log(todayHabits)
-
     const habitsDone = todayHabits.filter(habit => habit.done)
-    console.log(habitsDone)
+    //console.log(todayHabits)
+    //console.log(habitsDone)
+
+    const { user, setUser } = useContext(UserContext)
+    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${user.token}`
+        }
+    }
 
     useEffect(() => {
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${user.token}`
-            }
-        }
         const promise = axios.get(URL, config)
-
         promise.then(({ data }) => {
-            //console.log(data)
             setTodayHabits(data)
         })
         promise.catch(({ response }) => console.log(response))
-
     }, [])
 
     useEffect(() => {
@@ -48,11 +44,11 @@ export const Today = () => {
         <>
             <Header />
             <$Today>
-                <h1>{dayjs().format('dddd, DD/MM')}</h1>
+                <h1>{date}</h1>
                 {habitsDone.length === 0 ?
-                    <span>Nenhum hábito concluído ainda</span>
+                    <h2>Nenhum hábito concluído ainda</h2>
                     :
-                    <h2>{Math.round(user.percentage)}% dos hábitos concluídos</h2>
+                    <h2><strong>{Math.round(user.percentage)}% dos hábitos concluídos</strong></h2>
                 }
                 <main>
                     {todayHabits.map(habit => {

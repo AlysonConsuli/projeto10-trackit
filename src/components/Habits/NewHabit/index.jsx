@@ -1,30 +1,24 @@
 import { Day } from "../Days"
-import { $NewHabit } from "./style"
+import { $NewHabit, Boxes, Cancel, Submit } from "./style"
 import { useContext, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
 import { ThreeDots } from "react-loader-spinner"
 
 export const NewHabit = ({ callbackCancel, setHabits, habits, display, setRefresh }) => {
-
-    const [disable, setDisable] = useState(false)
-
-    const { user } = useContext(UserContext)
-
     const letters = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
-    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
-
+    const [disable, setDisable] = useState(false)
     const [newHabit, setNewHabit] = useState({
         habitName: '',
         days: []
     })
     const { habitName, days } = newHabit
+    const { user } = useContext(UserContext)
 
     function sortfunction(a, b) {
         return (a - b)
     }
-    //console.log(days.sort(sortfunction))
-
+    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
     const config = {
         headers: {
             'Authorization': `Bearer ${user.token}`
@@ -68,7 +62,7 @@ export const NewHabit = ({ callbackCancel, setHabits, habits, display, setRefres
                     value={newHabit.habitName}
                     disabled={disable}
                 />
-                <div>
+                <Boxes>
                     {letters.map((letter, i) => <Day disable={disable} key={i} letter={letter}
                         callback={() => {
                             if (days.includes(i)) {
@@ -78,11 +72,11 @@ export const NewHabit = ({ callbackCancel, setHabits, habits, display, setRefres
                             }
                         }}
                     />)}
-                </div>
-                <button type="button" disabled={disable} onClick={() => callbackCancel()}>Cancelar</button>
-                <button type="submit" disabled={disable}>
-                    {disable ? <ThreeDots color="#FFFFFF" height={13} width={13} /> : <span>Salvar</span>}
-                </button>
+                </Boxes>
+                <Cancel type="button" disabled={disable} onClick={() => callbackCancel()}>Cancelar</Cancel>
+                <Submit type="submit" disabled={disable}>
+                    {disable ? <ThreeDots color="#FFFFFF" height='43' width='43' ariaLabel='loading' /> : <span>Salvar</span>}
+                </Submit>
             </form>
         </$NewHabit>
     )

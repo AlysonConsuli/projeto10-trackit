@@ -1,11 +1,11 @@
 import { $SignUp } from "./style"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner"
+import logo from "../../assets/logo.png"
 
 export const SignUp = () => {
-
     const [newUser, setNewUser] = useState({
         email: '',
         password: '',
@@ -13,11 +13,9 @@ export const SignUp = () => {
         image: ''
     })
     const { email, password, name, image } = newUser
-
     const [disable, setDisable] = useState(false)
 
     const navigate = useNavigate()
-
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up'
 
     function Register(e) {
@@ -25,14 +23,13 @@ export const SignUp = () => {
         setDisable(true)
 
         const promise = axios.post(URL, newUser)
-
         promise.then(response => {
             const { data } = response
-            console.log(data)
+            //console.log(data)
             navigate('/')
         })
         promise.catch(err => {
-            console.log(err.response)
+            //console.log(err.response)
             if (!err.response.data.details) {
                 alert(err.response.data.message)
             } else {
@@ -44,6 +41,8 @@ export const SignUp = () => {
 
     return (
         <$SignUp>
+            <img src={logo} alt="logo" />
+            <h1>TrackIt</h1>
             <form onSubmit={Register}>
                 <input
                     type="email"
@@ -54,6 +53,7 @@ export const SignUp = () => {
                     onChange={e => setNewUser({ ...newUser, email: e.target.value })}
                     value={email}
                     disabled={disable}
+                    autoComplete="off"
                 />
                 <input
                     type="password"
@@ -64,6 +64,7 @@ export const SignUp = () => {
                     onChange={e => setNewUser({ ...newUser, password: e.target.value })}
                     value={password}
                     disabled={disable}
+                    autoComplete="off"
                 />
                 <input
                     type="text"
@@ -74,6 +75,7 @@ export const SignUp = () => {
                     onChange={e => setNewUser({ ...newUser, name: e.target.value })}
                     value={name}
                     disabled={disable}
+                    autoComplete="off"
                 />
                 <input
                     type="url"
@@ -84,9 +86,10 @@ export const SignUp = () => {
                     onChange={e => setNewUser({ ...newUser, image: e.target.value })}
                     value={image}
                     disabled={disable}
+                    autoComplete="off"
                 />
                 <button type="submit" disabled={disable}>
-                    {disable ? <ThreeDots color="#FFFFFF" height={13} width={13} /> : <span>Cadastrar</span>}
+                    {disable ? <ThreeDots color="#FFFFFF" height='51' width='51' ariaLabel='loading' /> : 'Cadastrar'}
                 </button>
             </form>
             <Link to='/'>
