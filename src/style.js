@@ -54,6 +54,7 @@ a{
 body{
     font-family: 'Lexend Deca';
     font-weight: 400;
+    cursor: default;
 }
 
 input{
@@ -84,5 +85,6 @@ button{
     font-size: 21px;
     text-align: center;
     color: #FFFFFF;
+    cursor: pointer;
 }
 `
