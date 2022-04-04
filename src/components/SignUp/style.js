@@ -57,6 +57,9 @@ button{
     text-align: center;
     color: #FFFFFF;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 span{

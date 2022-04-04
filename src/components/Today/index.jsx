@@ -34,6 +34,7 @@ export const Today = () => {
     useEffect(() => {
         const promise = axios.get(URL, config)
         promise.then(({ data }) => {
+            //console.log(data)
             setTodayHabits(data)
         })
         promise.catch(({ response }) => console.log(response))

@@ -14,9 +14,12 @@ export const Historic = () => {
     const [date, setDate] = useState(new Date());
     const { user } = useContext(UserContext)
 
+    const [infos, setInfos] = useState('')
+    //console.log(infos)
+
     dayjs.locale('pt-br')
-    const dateFormat = dayjs().format('DD/MM/YYYY')
-    console.log(dateFormat)
+    const dateToday = dayjs().format('DD/MM/YYYY')
+    //console.log(dateFormat)
 
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily'
     const config = {
@@ -28,10 +31,35 @@ export const Historic = () => {
     useEffect(() => {
         const promise = axios.get(URL, config)
 
-        promise.then(({ data }) => console.log(data))
+        promise.then(({ data }) => {
+            console.log(data)
+            setInfos(data)
+        })
         promise.catch(({ response }) => console.log(response))
 
     }, [])
+
+    function handleTile(date) {
+        const dateFormat = dayjs(date).format('DD/MM/YYYY')
+        let daysFailed = []
+
+        if (infos.length === 0 || dateFormat === dateToday) { return '' }
+        const habitsDays = infos.map(el => el.day)
+        if (habitsDays.includes(dateFormat)) {
+            infos.forEach(day => {
+                for (let habit of day.habits) {
+                    if (!habit.done) {
+                        daysFailed.push(day.day)
+                        break
+                    }
+                }
+            })
+            if (daysFailed.includes(dateFormat)) {
+                return 'incompleted'
+            }
+            return 'completed'
+        }
+    }
 
     return (
         <>
@@ -39,18 +67,22 @@ export const Historic = () => {
             <$Historic>
                 <h1>Histórico</h1>
                 <main>
-                    {/*<p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>*/}
-                    <h1>React Calendar</h1>
-                    <div>
-                        <Calendar onChange={setDate} value={date} />
-                    </div>
-                    {/*<p>
-                        <span>Selected Date:</span>{' '}
-                        {date.toDateString()}
-                    </p>*/}
+                    <Calendar
+                        onChange={setDate}
+                        value={date}
+                        tileClassName={({ date }) => handleTile(date)}
+                        onClickDay={console.log(dayjs(date).format('DD/MM/YYYY'))}
+                    />
                 </main >
             </$Historic >
             <Footer />
         </>
     )
 }
+
+//<p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
+
+/*<p>
+    <span>Selected Date:</span>{' '}
+    {date.toDateString()}
+</p>*/
