@@ -1,6 +1,6 @@
 import { Footer } from "../Footer"
 import { Header } from "../Header"
-import { $Historic } from "./style"
+import { $Historic, HabitsDay } from "./style"
 import Calendar from 'react-calendar';
 import { useContext, useEffect, useState } from "react";
 import 'react-calendar/dist/Calendar.css';
@@ -61,6 +61,20 @@ export const Historic = () => {
         }
     }
 
+    const [list, setList] = useState('')
+
+    function clickDay(date) {
+        const clickedDay = dayjs(date).format('DD/MM/YYYY')
+
+        if (infos.length === 0) { return '' }
+        const habitsDays = infos.map(el => el.day)
+        if (habitsDays.includes(clickedDay)) {
+            return setList(clickedDay)
+        }
+        return setList('')
+
+    }
+
     return (
         <>
             <Header />
@@ -68,11 +82,19 @@ export const Historic = () => {
                 <h1>Histórico</h1>
                 <main>
                     <Calendar
+                        calendarType="US"
                         onChange={setDate}
                         value={date}
                         tileClassName={({ date }) => handleTile(date)}
-                        onClickDay={console.log(dayjs(date).format('DD/MM/YYYY'))}
+                        formatDay={(locale, date) => dayjs(date).format("DD")}
+                        formatShortWeekday={(locale, date) => dayjs(date).format("ddd")}
+                        onClickDay={(date) => clickDay(date)}
                     />
+                    <HabitsDay>
+                        <span>
+                            {list}
+                        </span>
+                    </HabitsDay>
                 </main >
             </$Historic >
             <Footer />

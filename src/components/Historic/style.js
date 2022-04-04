@@ -108,10 +108,10 @@ main{
     height: 50px;
 }
 .react-calendar__month-view__days__day > * {
-    padding: 5px;
+    padding: 7px;
     width: 20px;
     height: 20px;
-    border-radius: 5px;
+    border-radius: 50%;
 }
 
 .react-calendar__month-view__days__day--weekend {
@@ -159,7 +159,7 @@ main{
 }
 
 .react-calendar__tile--active {
-    background: #FFFF81;
+    //background: #FFFF81;
     color: black;
 }
 
@@ -174,11 +174,22 @@ main{
 
 .completed > * {
     background-color: #8CC654;
-    color: black;
+    //color: black;
 }
 
 .incompleted > * {
     background-color: #EA5766;
-    color: black;
+    //color: black;
 }
+`
+
+export const HabitsDay = styled.div`
+margin-top: 20px;
+
+span{
+  font-size: 18px;
+  color: black;
+  margin: 0 22px 0 15px; 
+}
+
 `
