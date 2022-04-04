@@ -1,4 +1,4 @@
-import { $Login } from "./style"
+import { $Login, AutoLogin } from "./style"
 import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
@@ -12,7 +12,6 @@ export const Login = () => {
     const { user, setUser } = useContext(UserContext)
 
     const navigate = useNavigate()
-
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
 
     function Enter(e) {
@@ -22,8 +21,12 @@ export const Login = () => {
         const promise = axios.post(URL, userLogin)
         promise.then(response => {
             const { data } = response
-            const { email, password, name, image, token } = data
-            setUser({ ...user, email, password, name, image, token })
+            const { name, email, password, image, token } = data
+            setUser({ ...user, name, email, password, image, token })
+
+            const infosSerialized = JSON.stringify(data)
+            localStorage.setItem("user", infosSerialized)
+
             navigate('/hoje')
         })
         promise.catch(err => {
@@ -35,6 +38,22 @@ export const Login = () => {
             }
             setDisable(false)
         })
+    }
+
+    if (user.token.length !== 0) {
+        const promise = axios.post(URL, {
+            email: user.email,
+            password: user.password
+        })
+        promise.then(response => navigate('/hoje'))
+        promise.catch(err => console.log(err.response))
+
+        return (
+            <AutoLogin>
+                <h1>Logando...</h1>
+                <ThreeDots color="#52B6FF" height={80} width={80} />
+            </AutoLogin>
+        )
     }
 
     return (

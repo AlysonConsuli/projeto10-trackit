@@ -42,3 +42,17 @@ span{
     color: #52B6FF;
 }
 `
+
+export const AutoLogin = styled.div`
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 80vh;
+
+h1{
+    font-size: 23px;
+    color: black;
+}
+`

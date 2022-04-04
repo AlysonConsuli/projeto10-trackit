@@ -5,10 +5,15 @@ import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../contexts/UserContext"
 import { Footer } from "../Footer"
 import { Header } from "../Header"
-import { $Today } from "./style"
+import { $Today, Exit } from "./style"
 import { TodayHabit } from "./TodayHabit"
 
 export const Today = () => {
+
+    const infosString = localStorage.getItem("user")
+    const infos = JSON.parse(infosString)
+
+    console.log(infos)
 
     dayjs.locale('pt-br')
     const date = dayjs().format('dddd, DD/MM')[0].toUpperCase() + dayjs().format('dddd, DD/MM').substring(1)
