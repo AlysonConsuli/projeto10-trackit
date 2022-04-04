@@ -7,7 +7,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 export const Footer = () => {
     const { user } = useContext(UserContext)
-    
+
     return (
         <$Footer>
             <Link to='/habitos'>

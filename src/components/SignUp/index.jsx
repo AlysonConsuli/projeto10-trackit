@@ -23,13 +23,8 @@ export const SignUp = () => {
         setDisable(true)
 
         const promise = axios.post(URL, newUser)
-        promise.then(response => {
-            const { data } = response
-            //console.log(data)
-            navigate('/')
-        })
+        promise.then(resp => { navigate('/') })
         promise.catch(err => {
-            //console.log(err.response)
             if (!err.response.data.details) {
                 alert(err.response.data.message)
             } else {

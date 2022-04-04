@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Habits } from './components/Habits'
 import { Historic } from './components/Historic'
 import { Login } from './components/Login'
@@ -14,15 +14,18 @@ export const App = () => {
     let email = ''
     let password = ''
     let name = ''
+    let percentage = 0
 
     const infosString = localStorage.getItem("user")
     if (infosString) {
         const infos = JSON.parse(infosString)
+        const percentageStorage = localStorage.getItem("percentage")
         token = infos.token
         image = infos.image
         email = infos.email
         password = infos.password
         name = infos.name
+        percentage = percentageStorage
     }
 
     const [user, setUser] = useState({
@@ -31,7 +34,7 @@ export const App = () => {
         password,
         image,
         token,
-        percentage: 0
+        percentage
     })
 
     return (

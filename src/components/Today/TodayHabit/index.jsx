@@ -45,9 +45,7 @@ export const TodayHabit = ({ name, currentSequence, highestSequence,
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/check`,
                 {}, config
             )
-            promise.then((response) => {
-                setDisable(false)
-            })
+            promise.then((resp) => setDisable(false))
             promise.catch(({ response }) => {
                 console.log(response)
                 setDisable(false)
@@ -80,9 +78,7 @@ export const TodayHabit = ({ name, currentSequence, highestSequence,
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/uncheck`,
                 {}, config
             )
-            promise.then((response) => {
-                setDisable(false)
-            })
+            promise.then((resp) => setDisable(false))
             promise.catch(({ response }) => {
                 console.log(response)
                 setDisable(false)

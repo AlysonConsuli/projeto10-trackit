@@ -35,12 +35,10 @@ export const NewHabit = ({ callbackCancel, setHabits, habits, display, setRefres
         }, config)
 
         promise.then(({ data }) => {
-            console.log(data)
             setHabits([...habits, data])
             setRefresh()
         })
         promise.catch(err => {
-            console.log(err.response)
             if (!err.response.data.details) {
                 alert(err.response.data.message)
             } else {

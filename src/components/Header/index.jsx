@@ -4,14 +4,13 @@ import { UserContext } from "../../contexts/UserContext"
 import { $Header } from "./style"
 
 export const Header = () => {
-
     const { user, setUser } = useContext(UserContext)
     const navigate = useNavigate()
 
     function logOut() {
         if (window.confirm(`${user.name}, você quer mesmo deslogar?`)) {
             localStorage.clear()
-            setUser({...user, token: ''})
+            setUser({ ...user, token: '' })
             navigate('/')
         }
     }

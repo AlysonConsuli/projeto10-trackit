@@ -13,32 +13,26 @@ export const Habits = () => {
     const [toggleErase, setToggleErase] = useState(false)
     const [habits, setHabits] = useState([])
     const { user } = useContext(UserContext)
-    
+
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
     const config = {
         headers: {
             'Authorization': `Bearer ${user.token}`
         }
     }
-    //console.log(habits)
 
     function callbackDelete(value) {
         const promise = axios.delete(
             `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${value}`,
             config
         )
-        promise.then(resp => {
-            setToggleErase(!toggleErase)
-        })
+        promise.then(resp => setToggleErase(!toggleErase))
         promise.catch(({ response }) => console.log(response))
     }
 
     useEffect(() => {
         const promise = axios.get(URL, config)
-        promise.then(({ data }) => {
-            //console.log(data)
-            setHabits(data)
-        })
+        promise.then(({ data }) => setHabits(data))
         promise.catch(({ response }) => console.log(response))
 
     }, [toggleErase])

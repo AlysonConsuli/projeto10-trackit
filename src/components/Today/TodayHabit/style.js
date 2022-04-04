@@ -36,6 +36,9 @@ button{
     height: 69px;
     background-color: ${props => props.status ? '#8FC549' : '#EBEBEB'};
     border: ${props => props.status ? 'none' : '1px solid #E7E7E7'};
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 strong{

@@ -19,6 +19,7 @@ img{
     height: 51px;
     border-radius: 50%;
     cursor: pointer;
+    object-fit: cover;
 }
 
 h1{

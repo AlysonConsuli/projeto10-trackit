@@ -30,7 +30,6 @@ export const Login = () => {
             navigate('/hoje')
         })
         promise.catch(err => {
-            console.log(err.response)
             if (!err.response.data.details) {
                 alert(err.response.data.message)
             } else {
@@ -45,7 +44,7 @@ export const Login = () => {
             email: user.email,
             password: user.password
         })
-        promise.then(response => navigate('/hoje'))
+        promise.then(resp => navigate('/hoje'))
         promise.catch(err => console.log(err.response))
 
         return (

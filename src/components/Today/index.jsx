@@ -5,23 +5,16 @@ import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../contexts/UserContext"
 import { Footer } from "../Footer"
 import { Header } from "../Header"
-import { $Today, Exit } from "./style"
+import { $Today } from "./style"
 import { TodayHabit } from "./TodayHabit"
 
 export const Today = () => {
-
-    const infosString = localStorage.getItem("user")
-    const infos = JSON.parse(infosString)
-
-    console.log(infos)
 
     dayjs.locale('pt-br')
     const date = dayjs().format('dddd, DD/MM')[0].toUpperCase() + dayjs().format('dddd, DD/MM').substring(1)
 
     const [todayHabits, setTodayHabits] = useState([])
     const habitsDone = todayHabits.filter(habit => habit.done)
-    //console.log(todayHabits)
-    //console.log(habitsDone)
 
     const { user, setUser } = useContext(UserContext)
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
@@ -34,8 +27,10 @@ export const Today = () => {
     useEffect(() => {
         const promise = axios.get(URL, config)
         promise.then(({ data }) => {
-            //console.log(data)
             setTodayHabits(data)
+            if (todayHabits.length === 0) {
+                setUser({ ...user, percentage: 0 })
+            }
         })
         promise.catch(({ response }) => console.log(response))
     }, [])
@@ -45,6 +40,8 @@ export const Today = () => {
             setUser({ ...user, percentage: (habitsDone.length / todayHabits.length) * 100 })
         }
     }, [todayHabits])
+
+    localStorage.setItem("percentage", Math.round(user.percentage))
 
     return (
         <>

@@ -29,19 +29,13 @@ export const Historic = () => {
 
     useEffect(() => {
         const promise = axios.get(URL, config)
-
-        promise.then(({ data }) => {
-            console.log(data)
-            setInfos(data)
-        })
+        promise.then(({ data }) => setInfos(data))
         promise.catch(({ response }) => console.log(response))
-
     }, [])
 
     function handleTile(date) {
         const dateFormat = dayjs(date).format('DD/MM/YYYY')
         let daysFailed = []
-
         if (infos.length === 0 || dateFormat === dateToday) { return '' }
         const habitsDays = infos.map(el => el.day)
         if (habitsDays.includes(dateFormat)) {
