@@ -19,33 +19,33 @@ export const TodayHabit = ({ name, currentSequence, highestSequence,
             }
         }
         if (!status) {
+            setTodayHabits([...todayHabits].map(habit => {
+                if (habit.id === habitId &&
+                    habit.currentSequence >= habit.highestSequence) {
+                    return {
+                        ...habit,
+                        done: true,
+                        currentSequence: currentSequence + 1,
+                        highestSequence: currentSequence + 1
+                    }
+                }
+                if (habit.id === habitId &&
+                    habit.currentSequence < habit.highestSequence) {
+                    return {
+                        ...habit,
+                        done: true,
+                        currentSequence: currentSequence + 1
+                    }
+                }
+                if (habit.id !== habitId) {
+                    return { ...habit }
+                }
+            }))
             const promise = axios.post(
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/check`,
                 {}, config
             )
             promise.then((response) => {
-                setTodayHabits([...todayHabits].map(habit => {
-                    if (habit.id === habitId &&
-                        habit.currentSequence === habit.highestSequence) {
-                        return {
-                            ...habit,
-                            done: true,
-                            currentSequence: currentSequence + 1,
-                            highestSequence: currentSequence + 1
-                        }
-                    }
-                    if (habit.id === habitId &&
-                        habit.currentSequence !== habit.highestSequence) {
-                        return {
-                            ...habit,
-                            done: true,
-                            currentSequence: currentSequence + 1
-                        }
-                    }
-                    if (habit.id !== habitId) {
-                        return { ...habit }
-                    }
-                }))
                 setDisable(false)
             })
             promise.catch(({ response }) => {
@@ -53,34 +53,34 @@ export const TodayHabit = ({ name, currentSequence, highestSequence,
                 setDisable(false)
             })
         } else {
+            setTodayHabits([...todayHabits].map(habit => {
+
+                if (habit.id === habitId &&
+                    habit.currentSequence === habit.highestSequence) {
+                    return {
+                        ...habit,
+                        done: false,
+                        currentSequence: currentSequence - 1,
+                        highestSequence: currentSequence - 1
+                    }
+                }
+                if (habit.id === habitId &&
+                    habit.currentSequence !== habit.highestSequence) {
+                    return {
+                        ...habit,
+                        done: false,
+                        currentSequence: currentSequence - 1
+                    }
+                }
+                if (habit.id !== habitId) {
+                    return { ...habit }
+                }
+            }))
             const promise = axios.post(
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/uncheck`,
                 {}, config
             )
             promise.then((response) => {
-                setTodayHabits([...todayHabits].map(habit => {
-
-                    if (habit.id === habitId &&
-                        habit.currentSequence === habit.highestSequence) {
-                        return {
-                            ...habit,
-                            done: false,
-                            currentSequence: currentSequence - 1,
-                            highestSequence: currentSequence - 1
-                        }
-                    }
-                    if (habit.id === habitId &&
-                        habit.currentSequence !== habit.highestSequence) {
-                        return {
-                            ...habit,
-                            done: false,
-                            currentSequence: currentSequence - 1
-                        }
-                    }
-                    if (habit.id !== habitId) {
-                        return { ...habit }
-                    }
-                }))
                 setDisable(false)
             })
             promise.catch(({ response }) => {

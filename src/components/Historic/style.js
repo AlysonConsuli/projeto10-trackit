@@ -181,7 +181,8 @@ main{
 `
 
 export const HabitsDay = styled.div`
-margin: 20px 17px 0 17px;
+max-width: 350px;
+margin: 20px auto 0 auto;
 background-color: white;
 border: 1px solid #A0A096;
 border-radius: 5px;
