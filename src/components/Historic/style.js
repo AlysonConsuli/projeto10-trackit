@@ -187,6 +187,12 @@ background-color: white;
 border: 1px solid #A0A096;
 border-radius: 5px;
 padding: 10px;
+
+h2{
+  font-size: 20px;
+  color: #444444;
+  margin-bottom: 15px;
+}
 `
 
 export const Li = styled.li`

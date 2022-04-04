@@ -86,6 +86,7 @@ export const Historic = () => {
                     />
                     {list.length !== 0 &&
                         <HabitsDay>
+                            <h2>Histórico {dayjs(date).format('DD/MM/YYYY')}</h2>
                             <ul>
                                 {list.map(habit => {
                                     return (
