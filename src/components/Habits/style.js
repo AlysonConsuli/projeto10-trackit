@@ -22,6 +22,13 @@ export const Title = styled.div`
     margin: 22px 18px;
 
     button{
+        background-color: #52B6FF;
+        border-radius: 5px;
+        font-family: 'Lexend Deca';
+        font-weight: 400;
+        text-align: center;
+        color: #FFFFFF;
+        cursor: pointer;
         width: 40px;
         height: 35px;
         display: flex;

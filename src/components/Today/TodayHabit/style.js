@@ -24,6 +24,12 @@ span{
 }
 
 button{
+    border-radius: 5px;
+    font-family: 'Lexend Deca';
+    font-weight: 400;
+    font-size: 21px;
+    text-align: center;
+    cursor: pointer;
     position: absolute;
     right: 13px;
     width: 69px;

@@ -10,6 +10,11 @@ margin: 0 auto 29px auto;
 position: relative;
 
 input{
+    padding-left: 11px;
+    border-radius: 5px;
+    font-family: 'Lexend Deca';
+    font-weight: 400;
+    font-size: 20px;
     width: 303px;
     height: 45px;
     background: #FFFFFF;
@@ -18,10 +23,22 @@ input{
     position: absolute;
     top: 18px;
     right: 18px;
+
+    ::placeholder{
+        color: #DBDBDB;
+    }
 }
 `
 
 export const Submit = styled.button`
+background-color: #52B6FF;
+border-radius: 5px;
+border: none;
+font-family: 'Lexend Deca';
+font-weight: 400;
+text-align: center;
+color: #FFFFFF;
+cursor: pointer;
 width: 84px;
 height: 35px;
 font-size: 16px;
@@ -34,6 +51,10 @@ align-items: center;
 `
 
 export const Cancel = styled.button`
+border: none;
+font-family: 'Lexend Deca';
+font-weight: 400;
+cursor: pointer;
 width: 80px;
 height: 20px;
 font-size: 16px;
