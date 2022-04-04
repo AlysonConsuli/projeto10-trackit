@@ -1,6 +1,6 @@
 import { Footer } from "../Footer"
 import { Header } from "../Header"
-import { $Historic, HabitsDay } from "./style"
+import { $Historic, HabitsDay, Li } from "./style"
 import Calendar from 'react-calendar';
 import { useContext, useEffect, useState } from "react";
 import 'react-calendar/dist/Calendar.css';
@@ -15,11 +15,10 @@ export const Historic = () => {
     const { user } = useContext(UserContext)
 
     const [infos, setInfos] = useState('')
-    //console.log(infos)
+    const [list, setList] = useState([])
 
     dayjs.locale('pt-br')
     const dateToday = dayjs().format('DD/MM/YYYY')
-    //console.log(dateFormat)
 
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily'
     const config = {
@@ -61,18 +60,19 @@ export const Historic = () => {
         }
     }
 
-    const [list, setList] = useState('')
-
     function clickDay(date) {
         const clickedDay = dayjs(date).format('DD/MM/YYYY')
-
         if (infos.length === 0) { return '' }
         const habitsDays = infos.map(el => el.day)
         if (habitsDays.includes(clickedDay)) {
-            return setList(clickedDay)
+            infos.forEach(day => {
+                if (clickedDay === day.day) {
+                    setList(day.habits)
+                }
+            })
+        } else {
+            setList([])
         }
-        return setList('')
-
     }
 
     return (
@@ -90,21 +90,28 @@ export const Historic = () => {
                         formatShortWeekday={(locale, date) => dayjs(date).format("ddd")}
                         onClickDay={(date) => clickDay(date)}
                     />
-                    <HabitsDay>
-                        <span>
-                            {list}
-                        </span>
-                    </HabitsDay>
+                    {list.length !== 0 &&
+                        <HabitsDay>
+                            <ul>
+                                {list.map(habit => {
+                                    return (
+                                        (habit.done ?
+                                            <Li key={habit.id} done={true}>
+                                                {habit.name} ✅
+                                            </Li>
+                                            :
+                                            <Li key={habit.id} done={false}>
+                                                {habit.name} ❌
+                                            </Li>
+                                        )
+                                    )
+                                })}
+                            </ul>
+                        </HabitsDay>
+                    }
                 </main >
             </$Historic >
             <Footer />
         </>
     )
 }
-
-//<p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
-
-/*<p>
-    <span>Selected Date:</span>{' '}
-    {date.toDateString()}
-</p>*/

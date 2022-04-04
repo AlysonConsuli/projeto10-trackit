@@ -184,12 +184,15 @@ main{
 `
 
 export const HabitsDay = styled.div`
-margin-top: 20px;
+margin: 20px 17px 0 17px;
+background-color: white;
+border: 1px solid #A0A096;
+border-radius: 5px;
+padding: 10px;
+`
 
-span{
-  font-size: 18px;
-  color: black;
-  margin: 0 22px 0 15px; 
-}
-
+export const Li = styled.li`
+font-size: 18px;
+margin-bottom: 5px;
+color: ${props => props.done ? '#8CC654' : '#EA5766'};
 `
